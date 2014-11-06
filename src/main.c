@@ -138,7 +138,6 @@ static inline int get_jiffy_counts (struct jiffy_counts *jiffy_counts)
 static inline int read_proc_uptime (struct proc_uptime *proc_uptime)
 {
 	int n;
-	int fd;
 	char *fname;
 	char *buffer;
 
@@ -148,12 +147,6 @@ static inline int read_proc_uptime (struct proc_uptime *proc_uptime)
 		return -1;
 	}
 	snprintf(fname, PATH_MAX, "/proc/uptime");
-	fd = open(fname, O_RDONLY);
-	if (fd < 0) {
-		printf("open failed for: %s\n", fname);
-		free(fname);
-		return -1;
-	}
 	buffer = read_proc_file(fname);
 	if (buffer == NULL) {
 		printf("read proc file: %s failed\n", fname);
@@ -180,7 +173,6 @@ static inline int read_proc_uptime (struct proc_uptime *proc_uptime)
 static int read_proc_stat (pid_t pid, struct proc_status *proc_status)
 {
 	int n;
-	int fd;
 	char *cp;
 	char *fname;
 	char *buffer;
@@ -206,12 +198,6 @@ static int read_proc_stat (pid_t pid, struct proc_status *proc_status)
 		return -1;
 	}
 	snprintf(fname, PATH_MAX, "/proc/%d/stat", pid);
-	fd = open(fname, O_RDONLY);
-	if (fd < 0) {
-		printf("open failed for: %s\n", fname);
-		free(fname);
-		return -1;
-	}
 	buffer = read_proc_file(fname);
 	if (buffer == NULL) {
 		printf("read proc file: %s failed\n", fname);
